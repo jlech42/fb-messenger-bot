@@ -71,7 +71,7 @@ def send_message(recipient_id, message_text):
     "attachment": {
       "type": "image",
       "payload": {
-      	"url": "https://petersapparel.parseapp.com/img/shirt.png",
+      	"url": "https://s-media-cache-ak0.pinimg.com/736x/01/59/40/01594057534c60f94af3165f26d85629.jpg",
         "is_reusable": 'true'
       }
     }
