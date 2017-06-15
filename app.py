@@ -39,7 +39,7 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
 
-                    send_message(sender_id, "Yo yo!")
+                    send_message(sender_id, "Hello all!")
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
@@ -68,13 +68,13 @@ def send_message(recipient_id, message_text):
             "id": recipient_id
         },
         "message": {
-    "attachment": {
-      "type": "image",
-      "payload": {
-      	"url": "https://s-media-cache-ak0.pinimg.com/736x/01/59/40/01594057534c60f94af3165f26d85629.jpg",
-        "is_reusable": 'true'
-      }
-    }
+            "attachment": {
+                "type": "image",
+                "payload": {
+                    "url": "https://s-media-cache-ak0.pinimg.com/736x/01/59/40/01594057534c60f94af3165f26d85629.jpg",
+                    "is_reusable": 'true'
+                }
+            }
   }
     })
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
@@ -90,3 +90,35 @@ def log(message):  # simple wrapper for logging to stdout on heroku
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+def fandango_call():  # fandango API call
+    #'http://api.fandango.com/<version>?op=<operation>&<parameter list>&apikey=<apikey>&sig=<sig>'
+    #key - tg9vwek4uwsm7tjrc9trkymz
+    #secret - 52BbMVVCwm
+
+    params = {
+        "access_token": os.environ["PAGE_ACCESS_TOKEN"]
+    }
+
+    headers = {
+        "Content-Type": "application/json"
+    }
+
+    data = json.dumps({
+        "recipient": {
+            "id": recipient_id
+        },
+        "message": {
+            "attachment": {
+                "type": "image",
+                "payload": {
+                    "url": "https://s-media-cache-ak0.pinimg.com/736x/01/59/40/01594057534c60f94af3165f26d85629.jpg",
+                    "is_reusable": 'true'
+                }
+            }
+  }
+    })
+    r = requests.post("http://api.fandango.com/v1", params=params, headers=headers, data=data)
+    if r.status_code != 200:
+        log(r.status_code)
+        log(r.text)
