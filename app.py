@@ -54,6 +54,7 @@ def webhook():
 
 
 def send_message(recipient_id, message_text):
+    getUserProf(recipient_id)
 
     log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
 
@@ -83,42 +84,19 @@ def send_message(recipient_id, message_text):
         log(r.text)
 
 
+def getUserProf(recipient_id):
+    print (recipient_id)
+    return
+
+
 def log(message):  # simple wrapper for logging to stdout on heroku
     print (str(message))
     sys.stdout.flush()
 
 
+
+
 if __name__ == '__main__':
     app.run(debug=True)
 
-def fandango_call():  # fandango API call
-    #'http://api.fandango.com/<version>?op=<operation>&<parameter list>&apikey=<apikey>&sig=<sig>'
-    #key - tg9vwek4uwsm7tjrc9trkymz
-    #secret - 52BbMVVCwm
 
-    params = {
-        "access_token": os.environ["PAGE_ACCESS_TOKEN"]
-    }
-
-    headers = {
-        "Content-Type": "application/json"
-    }
-
-    data = json.dumps({
-        "recipient": {
-            "id": recipient_id
-        },
-        "message": {
-            "attachment": {
-                "type": "image",
-                "payload": {
-                    "url": "https://s-media-cache-ak0.pinimg.com/736x/01/59/40/01594057534c60f94af3165f26d85629.jpg",
-                    "is_reusable": 'true'
-                }
-            }
-  }
-    })
-    r = requests.post("http://api.fandango.com/v1", params=params, headers=headers, data=data)
-    if r.status_code != 200:
-        log(r.status_code)
-        log(r.text)
